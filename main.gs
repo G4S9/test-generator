@@ -1,4 +1,9 @@
 function doGet(e) {
+  const randomSort = (a) => a
+    .map(v => [Math.random(), v])
+    .sort(([a], [b]) => a - b)
+    .map(([_, v]) => v);
+
   const testId = e.parameter.testId;
 
   if (!testId) {
@@ -33,18 +38,18 @@ function doGet(e) {
 
     const questions = sheet.getDataRange().getValues().slice(1);
 
-    const shuffled = questions.sort(() => 0.5 - Math.random()).slice(0, numQuestions);
+    const shuffled = randomSort(questions)
+      .slice(0, numQuestions);
 
     shuffled.forEach(([questionText, option1, option2, option3, option4]) => {
       const item = newForm.addMultipleChoiceItem();
 
-      const shuffledChoices = [
+      const shuffledChoices = randomSort([
         item.createChoice(option1, true),
         item.createChoice(option2),
         item.createChoice(option3),
         item.createChoice(option4),
-      ]
-        .sort(() => 0.5 - Math.random());
+      ]);
 
       item
         .setTitle(questionText)
