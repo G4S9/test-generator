@@ -1,23 +1,18 @@
-function doGet(e) {
-  const randomSort = a => a
-    .map(v => [Math.random(), v])
-    .sort(([k1], [k2]) => k1 - k2)
-    .map(([, v]) => v);
-
-  const testId = e.parameter.testId;
-
+function doGet({ parameter: { testId, studentId } }) {
   if (!testId) {
-    return HtmlService.createHtmlOutput('error');
+    return HtmlService.createTemplateFromFile('error').evaluate();
   }
-
-  const studentId = e.parameter.studentId;
 
   if (!studentId) {
     const template = HtmlService.createTemplateFromFile('index');
     template.testId = testId;
-    template.studentId = studentId;
     return template.evaluate();
   }
+
+  const randomSort = a => a
+    .map(v => [Math.random(), v])
+    .sort(([k1], [k2]) => k1 - k2)
+    .map(([, v]) => v);
 
   const sheets = SpreadsheetApp.openById(testId).getSheets();
 
