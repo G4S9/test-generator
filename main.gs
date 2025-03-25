@@ -2,7 +2,7 @@ function doGet(e) {
   const randomSort = a => a
     .map(v => [Math.random(), v])
     .sort(([k1], [k2]) => k1 - k2)
-    .map(([_, v]) => v);
+    .map(([, v]) => v);
 
   const testId = e.parameter.testId;
 
